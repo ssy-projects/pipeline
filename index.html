@@ -141,24 +141,6 @@ td{padding:8px 12px;vertical-align:middle;}
 
 <div class="stats-grid" id="statsGrid"></div>
 
-<!-- Parse Box -->
-<div class="parse-box">
-  <div class="parse-hdr">
-    <span>⚡</span>
-    <span>Quick Add — Paste or type raw deal info</span>
-    <small>AI will parse it into the right fields</small>
-  </div>
-  <div class="parse-body">
-    <textarea id="parseInput" placeholder='e.g. "Live TC – Osaka Asahi Kaiun owners, 1 x NB Capesize 182K, BBHP structure, USD 78mill / 10Y BBC / USD 16,000, deal under negos PNC"' onkeydown="if((event.ctrlKey||event.metaKey)&&event.key==='Enter')runParse()"></textarea>
-    <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
-      <button class="btn btn-teal" onclick="runParse()" id="parseBtn">⚡ Parse &amp; Preview</button>
-      <span style="font-size:11px;color:#94a3b8;">Ctrl+Enter to parse</span>
-      <span id="parseMsg" style="font-size:13px;margin-left:4px;"></span>
-    </div>
-    <div id="previewCard" style="display:none;"></div>
-  </div>
-</div>
-
 <!-- Filters -->
 <div class="toolbar">
   <input type="text" id="qSearch" placeholder="🔍 Search counterparty, vessel, broker…" oninput="render()">
@@ -323,7 +305,7 @@ const SEED = [
   {id:53,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Live',transaction:'NB',counterparty:'Bangladesh Shipping Corp',position:'Buyers',bidAsk:'Bid',desc:'4 x NB Ultramax',type:'Bulk Carrier',size:'UMX',delivery:'2029 / 2030',duration:'N/A',structure:'Newbuilding',hirePrice:'Sorting out finance. Will face market.',remarks:'',broker:'HN'},
 ];
 
-let data=[], nextId=54, groupBy='transaction', selectMode=false, hiddenIds=new Set(), editId=null, PW='', previewData=null;
+let data=[], nextId=54, groupBy='transaction', selectMode=false, hiddenIds=new Set(), editId=null, PW='';
 
 // ── Password ──────────────────────────────────────────────────────────────────
 function checkPw(){
