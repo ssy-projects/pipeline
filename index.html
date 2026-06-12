@@ -107,6 +107,11 @@ td{padding:8px 12px;vertical-align:middle;}
 .form-section{font-size:11px;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.07em;margin:16px 0 10px;}
 .form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:20px;}
 .empty{text-align:center;color:#94a3b8;padding:30px;}
+.amend-log{margin-top:16px;border-top:1px solid #f1f5f9;padding-top:12px;}
+.amend-log-title{font-size:10px;font-weight:700;color:#cbd5e1;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+.amend-entry{font-size:11px;color:#94a3b8;padding:3px 0;display:flex;gap:8px;align-items:baseline;}
+.amend-ts{color:#cbd5e1;font-size:10px;white-space:nowrap;flex-shrink:0;}
+.amend-note{color:#64748b;}
 </style>
 </head>
 <body>
@@ -242,6 +247,10 @@ td{padding:8px 12px;vertical-align:middle;}
       <div></div>
       <div class="form-3"><label class="form-label">Hire / Price</label><input type="text" class="form-ctrl" id="f_hirePrice" placeholder="e.g. USD 25 mill / 5Y / SOFR + 180bps"></div>
       <div class="form-3"><label class="form-label">Remarks</label><textarea class="form-ctrl" id="f_remarks" rows="3" placeholder="Additional notes…"></textarea></div>
+    </div>
+    <div class="amend-log" id="amendLog" style="display:none;">
+      <div class="amend-log-title">🕐 System Amendment Log</div>
+      <div id="amendLogEntries"></div>
     </div>
     <div class="form-actions">
       <button class="btn btn-light" onclick="closeModal()">Cancel</button>
@@ -567,7 +576,10 @@ async function changeStatus(id,status){
   closeMenus();
   const row=data.find(r=>r.id===id);if(!row)return;
   const today=new Date().toISOString().slice(0,10);
-  const updated={...row,status,updateDate:today};
+  const now=new Date();
+  const tsStr=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  const newLog=[...(row.amendLog||[]),{ts:tsStr,note:'Status → '+status}];
+  const updated={...row,status,amendLog:newLog};
   setSync('Saving…');
   const j=await apiPost({action:'update',entry:updated});
   if(j.success){const i=data.findIndex(r=>r.id===id);if(i>-1)data[i]=updated;render();setSync('✓ Synced '+new Date().toLocaleTimeString());}
@@ -612,6 +624,8 @@ function openAdd(){
   document.getElementById('f_structure').value='Fixed';
   document.getElementById('f_entryDate').value=today;
   document.getElementById('f_updateDate').value='';
+  document.getElementById('amendLog').style.display='none';
+  document.getElementById('amendLogEntries').innerHTML='';
   document.getElementById('modal').classList.add('open');
 }
 
@@ -620,6 +634,19 @@ function openEdit(id){
   editId=id;document.getElementById('mTitle').textContent='Edit Entry';
   ['counterparty','desc','hirePrice','remarks','broker','delivery','entryDate','updateDate','duration'].forEach(f=>document.getElementById('f_'+f).value=r[f]||'');
   ['status','transaction','bidAsk','position','type','size','structure'].forEach(f=>{const el=document.getElementById('f_'+f);if(el)el.value=r[f]||'';});
+  // Show amendment log if exists
+  const log=r.amendLog||[];
+  const logDiv=document.getElementById('amendLog');
+  const logEntries=document.getElementById('amendLogEntries');
+  if(log.length>0){
+    logDiv.style.display='block';
+    logEntries.innerHTML=log.slice().reverse().map(e=>
+      `<div class="amend-entry"><span class="amend-ts">${x(e.ts)}</span><span class="amend-note">${x(e.note)}</span></div>`
+    ).join('');
+  } else {
+    logDiv.style.display='none';
+    logEntries.innerHTML='';
+  }
   document.getElementById('modal').classList.add('open');
 }
 
@@ -630,10 +657,31 @@ async function saveEntry(){
   const desc=document.getElementById('f_desc').value.trim();
   if(!cp||!desc){alert('Counterparty and Description are required.');return;}
   const today=new Date().toISOString().slice(0,10);
+  // Build amendment log entry
+  const now=new Date();
+  const tsStr=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  let amendLog=[];
+  let amendNote='';
+  if(editId){
+    const prev=data.find(d=>d.id===editId);
+    if(prev){
+      amendLog=[...(prev.amendLog||[])];
+      const changes=[];
+      if(prev.status!==document.getElementById('f_status').value) changes.push('Status → '+document.getElementById('f_status').value);
+      if(prev.counterparty!==cp) changes.push('Counterparty updated');
+      if(prev.transaction!==document.getElementById('f_transaction').value) changes.push('Transaction → '+document.getElementById('f_transaction').value);
+      if(prev.hirePrice!==document.getElementById('f_hirePrice').value.trim()) changes.push('Hire/Price updated');
+      if(prev.delivery!==document.getElementById('f_delivery').value.trim()) changes.push('Delivery updated');
+      amendNote=changes.length>0?changes.join(', '):'Entry edited';
+    }
+    amendLog.push({ts:tsStr,note:amendNote});
+  } else {
+    amendLog=[{ts:tsStr,note:'Entry created'}];
+  }
   const entry={
     id:editId||nextId++,
     entryDate:document.getElementById('f_entryDate').value||today,
-    updateDate:editId?today:'',
+    updateDate:document.getElementById('f_updateDate').value||'',
     status:document.getElementById('f_status').value,
     transaction:document.getElementById('f_transaction').value,
     counterparty:cp,position:document.getElementById('f_position').value,
@@ -646,6 +694,7 @@ async function saveEntry(){
     hirePrice:document.getElementById('f_hirePrice').value.trim(),
     remarks:document.getElementById('f_remarks').value.trim(),
     broker:document.getElementById('f_broker').value.trim(),
+    amendLog,
   };
   closeModal();setSync('Saving…');
   const j=await apiPost({action:editId?'update':'add',entry});
