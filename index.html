@@ -166,6 +166,7 @@ td{padding:8px 12px;vertical-align:middle;}
     <button class="btn btn-sm btn-light" id="gb-status" onclick="setGroup('status')">Status</button>
     <button class="btn btn-sm btn-light" id="gb-type" onclick="setGroup('type')">Type</button>
     <button class="btn btn-sm btn-light" id="gb-broker" onclick="setGroup('broker')">Broker</button>
+    <button class="btn btn-sm btn-light" id="gb-none" onclick="setGroup('none')">All Together</button>
   </div>
   <span id="recordCount" style="font-size:12px;color:#94a3b8;"></span>
 </div>
@@ -244,6 +245,18 @@ const POS_C = {
   'Builders':  {bg:'#e0f2fe',text:'#075985',dot:'#0ea5e9'},
   'As brokers':{bg:'#f1f5f9',text:'#475569',dot:'#94a3b8'},
 };
+const TYPE_C = {
+  'Bulk Carrier':   {bg:'#fef9c3',text:'#854d0e',dot:'#f59e0b'},
+  'Product Tanker': {bg:'#dbeafe',text:'#1e40af',dot:'#3b82f6'},
+  'LNG':            {bg:'#dcfce7',text:'#166534',dot:'#22c55e'},
+  'Chemical':       {bg:'#f3e8ff',text:'#6b21a8',dot:'#a855f7'},
+  'Crude':          {bg:'#fee2e2',text:'#991b1b',dot:'#ef4444'},
+  'LPG':            {bg:'#ffedd5',text:'#9a3412',dot:'#f97316'},
+  'Container':      {bg:'#e0f2fe',text:'#075985',dot:'#0ea5e9'},
+  'Offshore':       {bg:'#f0fdf4',text:'#14532d',dot:'#16a34a'},
+  'Others':         {bg:'#f1f5f9',text:'#475569',dot:'#94a3b8'},
+  'Any':            {bg:'#f8fafc',text:'#64748b',dot:'#cbd5e1'},
+};
 const TXN_ORDER = ['TC','SLB','BBHP','SNP','Finance','NB','POPT','JV','TC/DC'];
 const TXN_LABEL = {'TC':'Time Charter','NB':'Newbuild'};
 const ARCHIVE = new Set(['Completed','File Closed']);
@@ -305,7 +318,7 @@ const SEED = [
   {id:53,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Live',transaction:'NB',counterparty:'Bangladesh Shipping Corp',position:'Buyers',bidAsk:'Bid',desc:'4 x NB Ultramax',type:'Bulk Carrier',size:'UMX',delivery:'2029 / 2030',duration:'N/A',structure:'Newbuilding',hirePrice:'Sorting out finance. Will face market.',remarks:'',broker:'HN'},
 ];
 
-let data=[], nextId=54, groupBy='transaction', selectMode=false, hiddenIds=new Set(), editId=null, PW='';
+let data=[], nextId=54, groupBy='transaction', selectMode=false, hiddenIds=new Set(), editId=null, PW='', sortCol=null, sortDir=1;
 
 // ── Password ──────────────────────────────────────────────────────────────────
 function checkPw(){
@@ -350,7 +363,7 @@ async function apiPost(body){
 // ── Group / filter ────────────────────────────────────────────────────────────
 function setGroup(g){
   groupBy=g;
-  ['transaction','status','type','broker'].forEach(k=>{
+  ['transaction','status','type','broker','none'].forEach(k=>{
     const b=document.getElementById('gb-'+k);
     if(b){b.className=k===g?'btn btn-sm btn-navy':'btn btn-sm btn-light';}
   });
@@ -376,6 +389,7 @@ function getGrouped(rows){
   rows.forEach(r=>{
     let k;
     if(ARCHIVE.has(r.status)) k='✦ Completed | File Closed';
+    else if(groupBy==='none') k='All Entries';
     else if(groupBy==='transaction'&&(r.transaction==='SLB'||r.transaction==='BBHP')) k='SLB | BBHP';
     else k=r[groupBy]||'—';
     if(!g[k])g[k]=[];
@@ -393,6 +407,27 @@ function sortGroups(entries){
     if(ai===-1)return 1; if(bi===-1)return -1;
     return ai-bi;
   });
+}
+
+// ── Sort ─────────────────────────────────────────────────────────────────────
+function sortBy(col){
+  if(sortCol===col) sortDir*=-1; else {sortCol=col;sortDir=1;}
+  render();
+}
+function applySortToRows(rows){
+  if(!sortCol) return rows;
+  return [...rows].sort((a,b)=>{
+    let av=a[sortCol]||'', bv=b[sortCol]||'';
+    // Date columns sort chronologically
+    if(sortCol==='entryDate'||sortCol==='updateDate'){
+      av=av||'0000'; bv=bv||'0000';
+    }
+    return av.localeCompare(bv)*sortDir;
+  });
+}
+function sortIcon(col){
+  if(sortCol!==col) return '<span style="opacity:.3;font-size:9px;margin-left:2px;">⇅</span>';
+  return sortDir===1?'<span style="font-size:9px;margin-left:2px;">↑</span>':'<span style="font-size:9px;margin-left:2px;">↓</span>';
 }
 
 // ── Render ────────────────────────────────────────────────────────────────────
@@ -424,12 +459,13 @@ function render(){
     const isArchive=group.startsWith('✦');
     const hdrBg=isArchive?'#4a1d96':'#1e3a5f';
     const label=TXN_LABEL[group]||group.replace('✦ ','');
-    const rowsHtml=gRows.map(r=>{
+    const rowsHtml=applySortToRows(gRows).map(r=>{
       const hidden=hiddenIds.has(String(r.id));
       const actionBtns=selectMode
         ?`<button class="btn btn-sm" style="background:${hidden?'#16a34a':'#dc2626'};color:#fff;" onclick="event.stopPropagation();toggleHide(${r.id})">${hidden?'✓ Include':'✗ Exclude'}</button>`
         :`<button class="btn btn-sm btn-edit" onclick="event.stopPropagation();openEdit(${r.id})">Edit</button>
           <button class="btn btn-sm btn-red" onclick="event.stopPropagation();delEntry(${r.id},this)">Del</button>`;
+      const tc=TYPE_C[r.type]||{bg:'#f1f5f9',text:'#475569',dot:'#94a3b8'};
       return `<tr style="${hidden?'opacity:0.3;':''}" id="row-${r.id}">
         <td style="white-space:nowrap;">${r.entryDate?`<span style="font-size:11px;color:#475569;font-weight:600;">${x(r.entryDate)}</span>`:'<span style="color:#cbd5e1">—</span>'}</td>
         <td style="white-space:nowrap;">${r.updateDate?`<span style="font-size:11px;color:#0369a1;font-weight:700;">${x(r.updateDate)}</span>`:'<span style="color:#cbd5e1">—</span>'}</td>
@@ -438,9 +474,10 @@ function render(){
         <td style="font-weight:600;color:#1e3a5f;white-space:nowrap;">${x(r.counterparty)}</td>
         <td>${posTag(r.position)}</td>
         <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${x(r.desc)}">${x(r.desc)}</td>
-        <td style="color:#64748b;white-space:nowrap;">${x(r.type)}</td>
+        <td><span class="tag" style="background:${tc.bg};color:${tc.text};"><span class="tag-dot" style="background:${tc.dot}"></span>${x(r.type)}</span></td>
         <td style="color:#64748b;">${x(r.size)}</td>
         <td style="white-space:nowrap;color:#64748b;">${x(r.delivery)}</td>
+        <td style="color:#64748b;white-space:nowrap;font-size:11px;">${x(r.duration||'')}</td>
         <td style="max-width:190px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#0f4c81;font-size:12px;" title="${x(r.hirePrice)}">${x(r.hirePrice)}</td>
         <td style="font-weight:600;color:#475569;">${x(r.broker)}</td>
         <td onclick="event.stopPropagation()"><div style="display:flex;gap:4px;">${actionBtns}</div></td>
@@ -454,9 +491,8 @@ function render(){
     </div>
     <div class="table-scroll"><table>
       <thead><tr>
-        <th>Entry Date</th><th>Revised Date</th><th>Status</th><th>Txn</th>
-        <th>Counterparty</th><th>Position</th><th>Vessel / Description</th>
-        <th>Type</th><th>Size</th><th>Delivery</th><th>Hire / Price</th><th>Broker</th><th></th>
+        ${['Entry Date|entryDate','Revised Date|updateDate','Status|status','Txn|transaction','Counterparty|counterparty','Position|position','Vessel / Description|desc','Type|type','Size|size','Delivery|delivery','Duration|duration','Hire / Price|hirePrice','Broker|broker'].map(h=>{const[label,col]=h.split('|');return `<th style="cursor:pointer;user-select:none;" onclick="sortBy('${col}')">${label}${sortIcon(col)}</th>`;}).join('')}
+        <th></th>
       </tr></thead>
       <tbody>${rowsHtml}</tbody>
     </table></div>`;
