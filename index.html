@@ -28,7 +28,7 @@ header{background:linear-gradient(135deg,#1e3a5f,#0f4c81);padding:14px 24px;disp
 .sync-badge{font-size:12px;color:#93c5fd;}
 
 /* Stats */
-.stats-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;padding:16px 24px;}
+.stats-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:12px;padding:16px 24px;}
 .stat-card{border-radius:12px;padding:14px 16px;}
 .stat-n{font-size:26px;font-weight:800;line-height:1.2;}
 .stat-l{font-size:11px;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.05em;}
@@ -151,8 +151,7 @@ td{padding:8px 12px;vertical-align:middle;}
   <input type="text" id="qSearch" placeholder="🔍 Search counterparty, vessel, broker…" oninput="render()">
   <select id="qStatus" onchange="render()">
     <option value="">All Statuses</option>
-    <option>Enquiry</option><option>Slot</option><option>Opening</option><option>Live</option><option>Negos</option>
-    <option>Pending Dely</option><option>File Closed</option><option>Completed</option>
+    <option>Enquiry (TC)</option><option>P/E</option><option>Slot</option><option>Opening (TC)</option><option>Opening (Sale)</option><option>Negos</option><option>Live</option><option>Pending Dely</option><option>Completed</option><option>File Closed</option>
   </select>
   <select id="qTxn" onchange="render()">
     <option value="">All Transactions</option>
@@ -194,7 +193,7 @@ td{padding:8px 12px;vertical-align:middle;}
     <h2 id="mTitle">Add Entry</h2>
     <div class="form-section">Core Details</div>
     <div class="form-grid">
-      <div><label class="form-label">Status</label><select class="form-ctrl" id="f_status"><option>Enquiry</option><option>Slot</option><option>Opening</option><option selected>Live</option><option>Negos</option><option>Pending Dely</option><option>File Closed</option><option>Completed</option></select></div>
+      <div><label class="form-label">Status</label><select class="form-ctrl" id="f_status"><option>Enquiry (TC)</option><option>P/E</option><option>Slot</option><option>Opening (TC)</option><option>Opening (Sale)</option><option>Negos</option><option  selected>Live</option><option>Pending Dely</option><option>Completed</option><option>File Closed</option></select></div>
       <div><label class="form-label">Transaction</label><select class="form-ctrl" id="f_transaction"><option>TC</option><option>SLB</option><option>BBHP</option><option>SNP</option><option>Finance</option><option>NB</option><option>POPT</option><option>JV</option><option>TC/DC</option></select></div>
       <div><label class="form-label">Bid / Ask</label><select class="form-ctrl" id="f_bidAsk"><option>Bid</option><option>Ask</option><option>Fixed</option><option>Gone</option><option>As brokers</option></select></div>
       <div><label class="form-label">Entry Date</label><input type="date" class="form-ctrl" id="f_entryDate"></div>
@@ -209,19 +208,28 @@ td{padding:8px 12px;vertical-align:middle;}
     <div class="form-section">Vessel Details</div>
     <div class="form-grid">
       <div class="form-2"><label class="form-label">Vessel / Description *</label><input type="text" class="form-ctrl" id="f_desc" placeholder="e.g. Cape Jacaranda (181k/2011 Imabari)"></div>
-      <div><label class="form-label">Type</label><select class="form-ctrl" id="f_type"><option>Bulk Carrier</option><option>Product Tanker</option><option>LNG</option><option>Chemical</option><option>Crude</option><option>LPG</option><option>Container</option><option>Offshore</option><option>Others</option><option>Any</option></select></div>
+      <div><label class="form-label">Type</label><select class="form-ctrl" id="f_type"><option>Bulk Carrier</option><option>Product Tanker</option><option>LNG</option><option>Chemical</option><option>Crude</option><option>LPG</option><option>Container</option><option>Offshore</option><option>Car Carrier</option><option>Others</option><option>Any</option></select></div>
       <div><label class="form-label">Size</label><select class="form-ctrl" id="f_size">
   <option value="">—</option>
-  <option>HDY</option><option>UMX</option><option>KMX</option><option>Cape</option><option>NCM</option>
-  <option>PPMX</option><option>PMX</option><option>MR</option>
-  <option>Mini-Tanker</option><option>Bunker Tanker</option>
-  <option>Suezmax</option><option>VLCC</option><option>LR1</option><option>LR2</option>
-  <option>Feeder</option><option>Mega Container</option>
+  <option>HDY</option><option>SMX</option><option>UMX</option>
+  <option>PMX</option><option>KMX</option><option>PPMX</option>
+  <option>Cape</option><option>NCM</option><option>Baby Cape</option><option>VLOC</option>
+  <option>MR</option><option>Mini-Tanker</option><option>Bunker Tanker</option>
+  <option>Aframax</option><option>Suezmax</option><option>VLCC</option>
+  <option>LR1</option><option>LR2</option>
+  <option>Feeder</option><option>Panamax Box</option><option>Mega Box</option>
   <option>J16</option><option>J19</option>
-  <option>MGC</option><option>LGC</option><option>SLPG</option><option>VLGC</option><option>VLAC</option>
-  <option>174K m3</option>
-  <option>Q-Flex 210K m3</option><option>Q-Max 266K m3</option><option>Global Max 271K m3</option>
-  <option>Tween/Mini Bulk</option><option>Others</option>
+  <option>SLPG</option><option>MGC</option><option>Pressured LPG</option>
+  <option>Semi-Ref LPG</option><option>LGC</option><option>VLGC</option>
+  <option>VLAC</option><option>LCO2</option>
+  <option>174K m3</option><option>Q-Flex 210K m3</option>
+  <option>Q-Max 266K m3</option><option>Global Max 271K m3</option>
+  <option>Tween/Mini Bulk</option>
+  <option>PCTC</option><option>PSV</option><option>AHTS</option>
+  <option>SOV</option><option>WTIV</option><option>FPSO</option>
+  <option>Drillship</option><option>Seismic Survey</option><option>Jack-up</option>
+  <option>Pipe/Cable Layer</option><option>Heavy Lift</option><option>DSV</option>
+  <option>Others</option>
 </select></div>
       <div><label class="form-label">Delivery</label><input type="text" class="form-ctrl" id="f_delivery" placeholder="e.g. 2026 2H, Prompt"></div>
     </div>
@@ -241,7 +249,7 @@ td{padding:8px 12px;vertical-align:middle;}
   <option>SLB / Floating</option>
   <option>Newbuild Order</option>
   <option>Newbuild Sale</option>
-  <option>Sale/TC Back</option>
+  <option>Sale/TC Attached</option><option>Sale/TC Back</option>
   <option>JOLCO</option>
   <option>Direct Mortgage</option>
 </select></div>
@@ -264,14 +272,16 @@ td{padding:8px 12px;vertical-align:middle;}
 const API = 'https://script.google.com/macros/s/AKfycbyNG-lNT_g9xzDtnLBuXQfXUjYuo45a0mdaal8iPYfxQLGI7wMEMbKuU2DDhznrwtCz-w/exec';
 
 const STATUS_C = {
-  'Enquiry':      {dot:'#06b6d4',bg:'#cffafe',text:'#155e75'},
-  'Slot':         {dot:'#8b5cf6',bg:'#ede9fe',text:'#4c1d95'},
-  'Opening':      {dot:'#f97316',bg:'#ffedd5',text:'#9a3412'},
-  'Live':         {dot:'#22c55e',bg:'#dcfce7',text:'#166534'},
-  'Negos':        {dot:'#3b82f6',bg:'#dbeafe',text:'#1e40af'},
-  'Pending Dely': {dot:'#f59e0b',bg:'#fef9c3',text:'#854d0e'},
-  'File Closed':  {dot:'#94a3b8',bg:'#f1f5f9',text:'#475569'},
-  'Completed':    {dot:'#a855f7',bg:'#f3e8ff',text:'#6b21a8'},
+  'Enquiry (TC)':  {dot:'#06b6d4',bg:'#cffafe',text:'#155e75'},
+  'P/E':           {dot:'#a78bfa',bg:'#f5f3ff',text:'#4c1d95'},
+  'Slot':          {dot:'#8b5cf6',bg:'#ede9fe',text:'#5b21b6'},
+  'Opening (TC)':  {dot:'#f97316',bg:'#ffedd5',text:'#9a3412'},
+  'Opening (Sale)':{dot:'#fb923c',bg:'#fff7ed',text:'#7c2d12'},
+  'Negos':         {dot:'#3b82f6',bg:'#dbeafe',text:'#1e40af'},
+  'Live':          {dot:'#22c55e',bg:'#dcfce7',text:'#166534'},
+  'Pending Dely':  {dot:'#f59e0b',bg:'#fef9c3',text:'#854d0e'},
+  'Completed':     {dot:'#a855f7',bg:'#f3e8ff',text:'#6b21a8'},
+  'File Closed':   {dot:'#94a3b8',bg:'#f1f5f9',text:'#475569'},
 };
 const POS_C = {
   'Owners':    {bg:'#dbeafe',text:'#1e40af',dot:'#3b82f6'},
@@ -293,12 +303,13 @@ const TYPE_C = {
   'Container':      {bg:'#e0f2fe',text:'#075985',dot:'#0ea5e9'},
   'Offshore':       {bg:'#f0fdf4',text:'#14532d',dot:'#16a34a'},
   'Others':         {bg:'#f1f5f9',text:'#475569',dot:'#94a3b8'},
+  'Car Carrier':    {bg:'#fce7f3',text:'#9d174d',dot:'#ec4899'},
   'Any':            {bg:'#f8fafc',text:'#64748b',dot:'#cbd5e1'},
 };
 const TXN_ORDER = ['TC','SLB','BBHP','SNP','Finance','NB','POPT','JV','TC/DC'];
 const TXN_LABEL = {'TC':'Time Charter','NB':'Newbuild'};
 const ARCHIVE = new Set(['Completed','File Closed']);
-const STATUSES = ['Enquiry','Slot','Opening','Live','Negos','Pending Dely','File Closed','Completed'];
+const STATUSES = ['Enquiry (TC)','P/E','Slot','Opening (TC)','Opening (Sale)','Negos','Live','Pending Dely','Completed','File Closed'];
 
 const SEED = [
   {id:1,entryDate:'',updateDate:'2026-06-10',status:'Completed',transaction:'Finance',counterparty:'NTT TC Lease (NTL)',position:'Lenders',bidAsk:'Fixed',desc:'TESS66 (Cebu) NB 2H 2026 (SC457)',type:'Bulk Carrier',size:'UMX',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Direct Mortgage',hirePrice:'USD 26 mill / 4Y9M / USD 433k PQ / SOFR + 180 bps',remarks:'LTV ~70% Dely 3Q 2026',broker:'EQ'},
@@ -328,7 +339,7 @@ const SEED = [
   {id:25,entryDate:'',updateDate:'',status:'Completed',transaction:'SNP',counterparty:'Wisdom Marine',position:'Sellers',bidAsk:'Fixed',desc:'GENIUS STAR XI (13K/2012 Kegoya)',type:'Bulk Carrier',size:'Tween/Mini Bulk',delivery:'3-6M',duration:'N/A',structure:'Straight Sale',hirePrice:'K-WORLD LINE CO., LTD (Yoon) USD 8.7 mio less $124k L/S',remarks:'Dely 1-Jun / 31-Oct 2025',broker:'KW'},
   {id:26,entryDate:'2025-09-01',updateDate:'2026-06-10',status:'File Closed',transaction:'SNP',counterparty:'K-Line Singapore',position:'Sellers',bidAsk:'Gone',desc:'MV SUNSHINE BLISS (76K 2010 Oshima)',type:'Bulk Carrier',size:'PMX',delivery:'Prompt',duration:'N/A',structure:'Straight Sale',hirePrice:"High USD 15's million",remarks:'',broker:'HN'},
   {id:27,entryDate:'2025-09-05',updateDate:'2026-06-10',status:'Completed',transaction:'SNP',counterparty:'Grace Harmony Singapore Pte Ltd',position:'Sellers',bidAsk:'Ask',desc:'Grace Harmony (60k, 2015, Onomichi)',type:'Bulk Carrier',size:'UMX',delivery:'',duration:'',structure:'',hirePrice:'',remarks:'',broker:''},
-  {id:28,entryDate:'2026-06-10',updateDate:'',status:'Enquiry',transaction:'TC',counterparty:'Premuda',position:'Charterers',bidAsk:'Bid',desc:'Chinese Built 64 Ultramax',type:'Bulk Carrier',size:'UMX',delivery:'2029/2030',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 13,800 nett',remarks:'',broker:'J Bond'},
+  {id:28,entryDate:'2026-06-10',updateDate:'',status:'Enquiry (TC)',transaction:'TC',counterparty:'Premuda',position:'Charterers',bidAsk:'Bid',desc:'Chinese Built 64 Ultramax',type:'Bulk Carrier',size:'UMX',delivery:'2029/2030',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 13,800 nett',remarks:'',broker:'J Bond'},
   {id:29,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Slot',transaction:'TC',counterparty:'Daido J/V',position:'Owners',bidAsk:'Ask',desc:'Namura 182K Cape (SOx)',type:'Bulk Carrier',size:'Cape',delivery:'2H 2028',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 30,000 nett (3 years) / USD 29,000 nett (5 years)',remarks:'',broker:'EQ'},
   {id:30,entryDate:'2026-06-10',updateDate:'',status:'Slot',transaction:'TC',counterparty:'Okouchi Kaiun',position:'Owners',bidAsk:'Ask',desc:'YAMIC 82 Kamsarmax',type:'Bulk Carrier',size:'KMX',delivery:'2H 2028',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'5Y | As brokers, try USD 15,250 nett',remarks:'',broker:'HN'},
   {id:31,entryDate:'2026-06-10',updateDate:'',status:'Slot',transaction:'TC',counterparty:'FESTCO',position:'Owners',bidAsk:'Ask',desc:'TESS64 Ultramax (Cebu)',type:'Bulk Carrier',size:'UMX',delivery:'2H 2029',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'5-7Y | As brokers, USD 15,500 nett',remarks:'',broker:'EQ | HI'},
@@ -340,15 +351,15 @@ const SEED = [
   {id:37,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Slot',transaction:'TC',counterparty:'Daido Kaiun Co., Ltd.',position:'Owners',bidAsk:'Ask',desc:'SKDY-40 BC newbuilding Handysize',type:'Bulk Carrier',size:'HDY',delivery:'2H 2028',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'As brokers only, try USD 14,500 nett',remarks:'',broker:'HN'},
   {id:38,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Slot',transaction:'TC',counterparty:'Sugahara Kisen',position:'Owners',bidAsk:'Ask',desc:'Imabari-40 Handy Logger',type:'Bulk Carrier',size:'HDY',delivery:'1H 2030',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 14,000 nett',remarks:'',broker:'HI'},
   {id:39,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Slot',transaction:'TC',counterparty:'Soki Kisen',position:'Owners',bidAsk:'Ask',desc:'Imabari-40K Logger',type:'Bulk Carrier',size:'HDY',delivery:'1H 2029',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'As brokers try USD 14,000 nett, No POPT',remarks:'',broker:'HN'},
-  {id:40,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry',transaction:'TC',counterparty:'Falcon Maritime A/S',position:'Charterers',bidAsk:'Bid',desc:'Handy TESS42',type:'Bulk Carrier',size:'HDY',delivery:'2H 2027',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'5+1+1+1 years | USD 13,500 (+esc.) | POPT after 3Y',remarks:'',broker:'Gorm (USA)'},
+  {id:40,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry (TC)',transaction:'TC',counterparty:'Falcon Maritime A/S',position:'Charterers',bidAsk:'Bid',desc:'Handy TESS42',type:'Bulk Carrier',size:'HDY',delivery:'2H 2027',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'5+1+1+1 years | USD 13,500 (+esc.) | POPT after 3Y',remarks:'',broker:'Gorm (USA)'},
   {id:41,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Live',transaction:'TC',counterparty:'TCC',position:'Owners',bidAsk:'Ask',desc:'LPG 7,500 cbm Newbuild',type:'LPG',size:'Others',delivery:'2030',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'7Y+chopt, USD 415,000 PCM',remarks:'',broker:'HI'},
   {id:42,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Negos',transaction:'TC',counterparty:'Anglo American',position:'Charterers',bidAsk:'Bid',desc:'Newbuilding NSY 64K, Ultramax',type:'Bulk Carrier',size:'UMX',delivery:'1Q2028',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'3+1+1Y | 102.5% BSI63, Floor USD 12,000, Ceiling USD 18,000',remarks:'',broker:'J Bond'},
   {id:43,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Negos',transaction:'TC',counterparty:'Concerto',position:'Owners',bidAsk:'Ask',desc:'NSY 64,000 DWT Ultramax',type:'Bulk Carrier',size:'UMX',delivery:'1Q 2028',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'3+1+1 years | 104.5% BSI63, Floor USD 12,000, Ceiling USD 20,000',remarks:'',broker:'DT'},
-  {id:44,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry',transaction:'TC',counterparty:'Christiania Gas',position:'Charterers',bidAsk:'Bid',desc:'Newbuild 7,500cbm LPG Pressurized, two ships enbloc from same yard',type:'LPG',size:'SLPG',delivery:'2029 onwards',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 420,000 PCM (best seen)',remarks:'',broker:'Thor (Bergen)'},
+  {id:44,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry (TC)',transaction:'TC',counterparty:'Christiania Gas',position:'Charterers',bidAsk:'Bid',desc:'Newbuild 7,500cbm LPG Pressurized, two ships enbloc from same yard',type:'LPG',size:'SLPG',delivery:'2029 onwards',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 420,000 PCM (best seen)',remarks:'',broker:'Thor (Bergen)'},
   {id:45,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Slot',transaction:'TC',counterparty:'OFSS / MBS',position:'Owners',bidAsk:'Ask',desc:'Newbuild TESS42 (Non logs, CO2, A60, 2x25t)',type:'Bulk Carrier',size:'HDY',delivery:'2H 2027',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'Aiming $14K net to Owners for 5Y (try 5+2Y) | No POPT',remarks:'',broker:'EQ'},
-  {id:46,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry',transaction:'TC',counterparty:'Chemikalien SeeTransport (CST)',position:'Charterers',bidAsk:'Bid',desc:'TESS42 NB (Non-Logs, A60, CO2, 2x25t)',type:'Bulk Carrier',size:'HDY',delivery:'2H 2027',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'5+1+1Y | USD 14,000 (+ $250 esc. p.a.) | No POPT.',remarks:'',broker:'BVB'},
-  {id:47,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry',transaction:'TC',counterparty:'Marla Trading',position:'Charterers',bidAsk:'Bid',desc:'Warrior (2023 40k Namura)',type:'Bulk Carrier',size:'HDY',delivery:'Prompt',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 13k for 5/1/1Y',remarks:'',broker:'Stanko'},
-  {id:48,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry',transaction:'BBHP',counterparty:'OSR',position:'Buyers',bidAsk:'Bid',desc:'NSY 40K Newbuilding',type:'Bulk Carrier',size:'HDY',delivery:'2030',duration:'Long Term (5-10Y)',structure:'BBHP',hirePrice:'60% LTV, USD 5,500/day fixed, US$10.4M balloon after 10 years, POPT from Year 3 onwards',remarks:'',broker:'Toby English'},
+  {id:46,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry (TC)',transaction:'TC',counterparty:'Chemikalien SeeTransport (CST)',position:'Charterers',bidAsk:'Bid',desc:'TESS42 NB (Non-Logs, A60, CO2, 2x25t)',type:'Bulk Carrier',size:'HDY',delivery:'2H 2027',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'5+1+1Y | USD 14,000 (+ $250 esc. p.a.) | No POPT.',remarks:'',broker:'BVB'},
+  {id:47,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry (TC)',transaction:'TC',counterparty:'Marla Trading',position:'Charterers',bidAsk:'Bid',desc:'Warrior (2023 40k Namura)',type:'Bulk Carrier',size:'HDY',delivery:'Prompt',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'USD 13k for 5/1/1Y',remarks:'',broker:'Stanko'},
+  {id:48,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Enquiry (TC)',transaction:'BBHP',counterparty:'OSR',position:'Buyers',bidAsk:'Bid',desc:'NSY 40K Newbuilding',type:'Bulk Carrier',size:'HDY',delivery:'2030',duration:'Long Term (5-10Y)',structure:'BBHP',hirePrice:'60% LTV, USD 5,500/day fixed, US$10.4M balloon after 10 years, POPT from Year 3 onwards',remarks:'',broker:'Toby English'},
   {id:49,entryDate:'2026-06-10',updateDate:'',status:'Live',transaction:'SNP',counterparty:'K Line',position:'Sellers',bidAsk:'Ask',desc:'YAMATOGAWA (302K | 2006 | KHI)',type:'Crude',size:'VLCC',delivery:'8 Jul / 24 Aug 2026',duration:'N/A',structure:'Straight Sale',hirePrice:'Offers due 16th June 2026',remarks:'',broker:'HN'},
   {id:50,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Live',transaction:'Finance',counterparty:'DryDel',position:'Borrowers',bidAsk:'Ask',desc:'Newbuild 182K Cape',type:'Bulk Carrier',size:'UMX',delivery:'2H 2029',duration:'Long Term (5-10Y)',structure:'JOLCO',hirePrice:'Seeking JOLCO finance 100% LTV with Pre-Delivery Finance.',remarks:'',broker:'EQ'},
   {id:51,entryDate:'2026-06-10',updateDate:'',status:'Live',transaction:'Finance',counterparty:'NTT TC Lease',position:'Lenders',bidAsk:'Ask',desc:'Any (except Crude, still reviewing)',type:'Any',size:'',delivery:'2026',duration:'Long Term (5-10Y)',structure:'JOLCO',hirePrice:'Can do JOLCo, SLB, Direct Finance',remarks:'',broker:'EQ'},
@@ -545,16 +556,19 @@ function render(){
 }
 
 function updateStats(rows){
-  const counts={Enquiry:0,Slot:0,Opening:0,Live:0,Negos:0,'Pending Dely':0,Completed:0};
+  const counts={'Enquiry (TC)':0,'P/E':0,'Slot':0,'Opening (TC)':0,'Opening (Sale)':0,'Negos':0,'Live':0,'Pending Dely':0,'Completed':0,'File Closed':0};
   (rows||data).forEach(r=>{if(counts[r.status]!==undefined)counts[r.status]++;});
   document.getElementById('statsGrid').innerHTML=[
-    ['Enquiry',counts.Enquiry,'#cffafe','#155e75'],
-    ['Slot',counts.Slot,'#ede9fe','#4c1d95'],
-    ['Opening',counts.Opening,'#ffedd5','#9a3412'],
-    ['Live',counts.Live,'#dcfce7','#166534'],
-    ['In Negotiations',counts.Negos,'#dbeafe','#1e40af'],
-    ['Pending Delivery',counts['Pending Dely'],'#fef9c3','#854d0e'],
-    ['Completed',counts.Completed,'#f3e8ff','#6b21a8'],
+    ['Enquiry (TC)',counts['Enquiry (TC)'],'#cffafe','#155e75'],
+    ['P/E',counts['P/E'],'#f5f3ff','#4c1d95'],
+    ['Slot',counts['Slot'],'#ede9fe','#5b21b6'],
+    ['Opening (TC)',counts['Opening (TC)'],'#ffedd5','#9a3412'],
+    ['Opening (Sale)',counts['Opening (Sale)'],'#fff7ed','#7c2d12'],
+    ['Negos',counts['Negos'],'#dbeafe','#1e40af'],
+    ['Live',counts['Live'],'#dcfce7','#166534'],
+    ['Pending Dely',counts['Pending Dely'],'#fef9c3','#854d0e'],
+    ['Completed',counts['Completed'],'#f3e8ff','#6b21a8'],
+    ['File Closed',counts['File Closed'],'#f1f5f9','#475569'],
   ].map(([l,n,bg,tx])=>`<div class="stat-card" style="background:${bg};"><div class="stat-l" style="color:${tx};">${l}</div><div class="stat-n" style="color:${tx};">${n}</div></div>`).join('');
 }
 
