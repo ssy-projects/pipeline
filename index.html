@@ -373,7 +373,7 @@ function checkPw(){
 function setSync(msg){document.getElementById('syncStatus').textContent=msg;}
 function setSave(msg){document.getElementById('saveStatus').textContent=msg;if(msg)setTimeout(()=>document.getElementById('saveStatus').textContent='',2500);}
 
-async async function loadData(){
+async function loadData(){
   setSync('Loading…');
   try{
     const r=await fetch(API+'?password='+encodeURIComponent(PW));
@@ -543,7 +543,7 @@ function render(){
 }
 
 function updateStats(rows){
-  const counts={Enquiry:0,Slot:0,Live:0,Negos:0,'Pending Dely':0,Completed:0};
+  const counts={Enquiry:0,Slot:0,Opening:0,Live:0,Negos:0,'Pending Dely':0,Completed:0};
   (rows||data).forEach(r=>{if(counts[r.status]!==undefined)counts[r.status]++;});
   document.getElementById('statsGrid').innerHTML=[
     ['Enquiry',counts.Enquiry,'#cffafe','#155e75'],
@@ -580,7 +580,7 @@ function toggleStatusMenu(id,btn){
   }).join('');
   btn.parentElement.appendChild(menu);
 }
-function changeStatus(id,status){
+async function changeStatus(id,status){
   openMenuId=null;
   const row=data.find(r=>r.id===id);if(!row)return;
   const today=new Date().toISOString().slice(0,10);
