@@ -360,7 +360,11 @@ let data=[], nextId=54, groupBy='transaction', selectMode=false, hiddenIds=new S
 // ── Password ──────────────────────────────────────────────────────────────────
 function checkPw(){
   const val=document.getElementById('pwInput').value;
-  if(val==='SSY2026'){PW=val;document.getElementById('pwScreen').style.display='none';loadData();}
+  if(val==='SSY2026'){
+    PW=val;
+    document.getElementById('pwScreen').style.display='none';
+    try{ loadData(); } catch(e){ console.warn('loadData error:',e); render(); }
+  }
   else{document.getElementById('pwError').style.display='block';document.getElementById('pwInput').value='';}
 }
 
@@ -368,7 +372,7 @@ function checkPw(){
 function setSync(msg){document.getElementById('syncStatus').textContent=msg;}
 function setSave(msg){document.getElementById('saveStatus').textContent=msg;if(msg)setTimeout(()=>document.getElementById('saveStatus').textContent='',2500);}
 
-async function loadData(){
+async async function loadData(){
   setSync('Loading…');
   try{
     const r=await fetch(API+'?password='+encodeURIComponent(PW));
