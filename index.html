@@ -195,7 +195,7 @@ td{padding:8px 12px;vertical-align:middle;}
     <div class="form-section">Core Details</div>
     <div class="form-grid">
       <div><label class="form-label">Status</label><select class="form-ctrl" id="f_status"><option>Enquiry</option><option>Slot</option><option selected>Live</option><option>Negos</option><option>Pending Dely</option><option>File Closed</option><option>Completed</option></select></div>
-      <div><label class="form-label">Transaction</label><select class="form-ctrl" id="f_transaction"><option>TC</option><option>SLB</option><option>BBHP</option><option>SNP</option><option>Finance</option><option>NB</option><option>POPT</option><option>JV</option><option>TC/DC</option></select></div>
+      <div><label class="form-label">Transaction</label><select class="form-ctrl" id="f_transaction"><option>TC</option><option>SLB</option><option>BBHP</option><option>SNP</option><option>Finance</option><option>NB</option><option>Opening</option><option>POPT</option><option>JV</option><option>TC/DC</option></select></div>
       <div><label class="form-label">Bid / Ask</label><select class="form-ctrl" id="f_bidAsk"><option>Bid</option><option>Ask</option><option>Fixed</option><option>Gone</option><option>As brokers</option></select></div>
       <div><label class="form-label">Entry Date</label><input type="date" class="form-ctrl" id="f_entryDate"></div>
       <div><label class="form-label">Revised Date</label><input type="date" class="form-ctrl" id="f_updateDate"></div>
@@ -204,7 +204,7 @@ td{padding:8px 12px;vertical-align:middle;}
     <div class="form-section">Counterparty</div>
     <div class="form-grid">
       <div class="form-2"><label class="form-label">Counterparty *</label><input type="text" class="form-ctrl" id="f_counterparty" placeholder="e.g. Osaka Asahi Kaiun"></div>
-      <div><label class="form-label">Position</label><select class="form-ctrl" id="f_position"><option>Owners</option><option>Charterers</option><option>Sellers</option><option>Buyers</option><option>Lenders</option><option>Borrowers</option><option>Builders</option><option>As brokers</option></select></div>
+      <div><label class="form-label">Position</label><select class="form-ctrl" id="f_position"><option>Owners</option><option>Charterers</option><option>Sellers</option><option>Buyers</option><option>Lenders</option><option>Borrowers</option><option>Builders</option><option>Both/Negos</option><option>As brokers</option></select></div>
     </div>
     <div class="form-section">Vessel Details</div>
     <div class="form-grid">
@@ -212,7 +212,7 @@ td{padding:8px 12px;vertical-align:middle;}
       <div><label class="form-label">Type</label><select class="form-ctrl" id="f_type"><option>Bulk Carrier</option><option>Product Tanker</option><option>LNG</option><option>Chemical</option><option>Crude</option><option>LPG</option><option>Container</option><option>Offshore</option><option>Others</option><option>Any</option></select></div>
       <div><label class="form-label">Size</label><select class="form-ctrl" id="f_size">
   <option value="">—</option>
-  <option>HDY</option><option>UMX</option><option>KMX</option><option>Cape</option>
+  <option>HDY</option><option>UMX</option><option>KMX</option><option>Cape</option><option>NCM</option>
   <option>PPMX</option><option>PMX</option><option>MR</option>
   <option>Mini-Tanker</option><option>Bunker Tanker</option>
   <option>Suezmax</option><option>VLCC</option><option>LR1</option><option>LR2</option>
@@ -241,6 +241,7 @@ td{padding:8px 12px;vertical-align:middle;}
   <option>SLB / Floating</option>
   <option>Newbuild Order</option>
   <option>Newbuild Sale</option>
+  <option>Sale/TC Back</option>
   <option>JOLCO</option>
   <option>Direct Mortgage</option>
 </select></div>
@@ -716,8 +717,8 @@ async function runParse(){
       model:'claude-sonnet-4-20250514',max_tokens:1000,
       system:`You are a maritime shipping deal parser. Extract fields and return ONLY a JSON object (no markdown) with these exact keys: status, transaction, counterparty, position, bidAsk, desc, type, size, delivery, duration, structure, hirePrice, remarks, broker.
 Valid status: Enquiry|Slot|Live|Negos|Pending Dely|File Closed|Completed (default: Live)
-Valid transaction: TC|SLB|BBHP|SNP|Finance|NB|POPT|JV|TC/DC
-Valid position: Owners|Charterers|Sellers|Buyers|Lenders|Borrowers|Builders|As brokers
+Valid transaction: TC|SLB|BBHP|SNP|Finance|NB|Opening|POPT|JV|TC/DC
+Valid position: Owners|Charterers|Sellers|Buyers|Lenders|Borrowers|Builders|Both/Negos|As brokers
 Valid bidAsk: Bid|Ask|Fixed|Gone|As brokers
 Valid type: Bulk Carrier|Product Tanker|LNG|Chemical|Crude|LPG|Container|Offshore|Others|Any
 Valid size: HDY|UMX|KMX|Cape|PPMX|PMX|MR|Mini-Tanker|Bunker Tanker|Suezmax|VLCC|LR1|LR2|Feeder|Mega Container|J16|J19|MGC|LGC|SLPG|VLGC|VLAC|174K m3|Q-Flex 210K m3|Q-Max 266K m3|Global Max 271K m3|Tween/Mini Bulk|Others|(empty if unknown)
