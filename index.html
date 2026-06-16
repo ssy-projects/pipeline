@@ -194,8 +194,8 @@ td{padding:8px 12px;vertical-align:middle;}
     <h2 id="mTitle">Add Entry</h2>
     <div class="form-section">Core Details</div>
     <div class="form-grid">
-      <div><label class="form-label">Status</label><select class="form-ctrl" id="f_status"><option>Enquiry</option><option>Slot</option><option selected>Live</option><option>Negos</option><option>Pending Dely</option><option>File Closed</option><option>Completed</option></select></div>
-      <div><label class="form-label">Transaction</label><select class="form-ctrl" id="f_transaction"><option>TC</option><option>SLB</option><option>BBHP</option><option>SNP</option><option>Finance</option><option>NB</option><option>Opening</option><option>POPT</option><option>JV</option><option>TC/DC</option></select></div>
+      <div><label class="form-label">Status</label><select class="form-ctrl" id="f_status"><option>Enquiry</option><option>Slot</option><option>Opening</option><option selected>Live</option><option>Negos</option><option>Pending Dely</option><option>File Closed</option><option>Completed</option></select></div>
+      <div><label class="form-label">Transaction</label><select class="form-ctrl" id="f_transaction"><option>TC</option><option>SLB</option><option>BBHP</option><option>SNP</option><option>Finance</option><option>NB</option><option>POPT</option><option>JV</option><option>TC/DC</option></select></div>
       <div><label class="form-label">Bid / Ask</label><select class="form-ctrl" id="f_bidAsk"><option>Bid</option><option>Ask</option><option>Fixed</option><option>Gone</option><option>As brokers</option></select></div>
       <div><label class="form-label">Entry Date</label><input type="date" class="form-ctrl" id="f_entryDate"></div>
       <div><label class="form-label">Revised Date</label><input type="date" class="form-ctrl" id="f_updateDate"></div>
@@ -297,7 +297,7 @@ const TYPE_C = {
 const TXN_ORDER = ['TC','SLB','BBHP','SNP','Finance','NB','POPT','JV','TC/DC'];
 const TXN_LABEL = {'TC':'Time Charter','NB':'Newbuild'};
 const ARCHIVE = new Set(['Completed','File Closed']);
-const STATUSES = ['Enquiry','Slot','Live','Negos','Pending Dely','File Closed','Completed'];
+const STATUSES = ['Enquiry','Slot','Opening','Live','Negos','Pending Dely','File Closed','Completed'];
 
 const SEED = [
   {id:1,entryDate:'',updateDate:'2026-06-10',status:'Completed',transaction:'Finance',counterparty:'NTT TC Lease (NTL)',position:'Lenders',bidAsk:'Fixed',desc:'TESS66 (Cebu) NB 2H 2026 (SC457)',type:'Bulk Carrier',size:'UMX',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Direct Mortgage',hirePrice:'USD 26 mill / 4Y9M / USD 433k PQ / SOFR + 180 bps',remarks:'LTV ~70% Dely 3Q 2026',broker:'EQ'},
@@ -716,7 +716,7 @@ async function runParse(){
     const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
       model:'claude-sonnet-4-20250514',max_tokens:1000,
       system:`You are a maritime shipping deal parser. Extract fields and return ONLY a JSON object (no markdown) with these exact keys: status, transaction, counterparty, position, bidAsk, desc, type, size, delivery, duration, structure, hirePrice, remarks, broker.
-Valid status: Enquiry|Slot|Live|Negos|Pending Dely|File Closed|Completed (default: Live)
+Valid status: Enquiry|Slot|Opening|Live|Negos|Pending Dely|File Closed|Completed (default: Live)
 Valid transaction: TC|SLB|BBHP|SNP|Finance|NB|Opening|POPT|JV|TC/DC
 Valid position: Owners|Charterers|Sellers|Buyers|Lenders|Borrowers|Builders|Both/Negos|As brokers
 Valid bidAsk: Bid|Ask|Fixed|Gone|As brokers
