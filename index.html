@@ -28,7 +28,7 @@ header{background:linear-gradient(135deg,#1e3a5f,#0f4c81);padding:14px 24px;disp
 .sync-badge{font-size:12px;color:#93c5fd;}
 
 /* Stats */
-.stats-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:16px 24px;}
+.stats-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;padding:16px 24px;}
 .stat-card{border-radius:12px;padding:14px 16px;}
 .stat-n{font-size:26px;font-weight:800;line-height:1.2;}
 .stat-l{font-size:11px;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.05em;}
@@ -151,7 +151,7 @@ td{padding:8px 12px;vertical-align:middle;}
   <input type="text" id="qSearch" placeholder="🔍 Search counterparty, vessel, broker…" oninput="render()">
   <select id="qStatus" onchange="render()">
     <option value="">All Statuses</option>
-    <option>Enquiry</option><option>Slot</option><option>Live</option><option>Negos</option>
+    <option>Enquiry</option><option>Slot</option><option>Opening</option><option>Live</option><option>Negos</option>
     <option>Pending Dely</option><option>File Closed</option><option>Completed</option>
   </select>
   <select id="qTxn" onchange="render()">
@@ -543,6 +543,7 @@ function updateStats(rows){
   document.getElementById('statsGrid').innerHTML=[
     ['Enquiry',counts.Enquiry,'#cffafe','#155e75'],
     ['Slot',counts.Slot,'#ede9fe','#4c1d95'],
+    ['Opening',counts.Opening,'#ffedd5','#9a3412'],
     ['Live',counts.Live,'#dcfce7','#166534'],
     ['In Negotiations',counts.Negos,'#dbeafe','#1e40af'],
     ['Pending Delivery',counts['Pending Dely'],'#fef9c3','#854d0e'],
@@ -558,7 +559,8 @@ function closeMenus(){
   openMenuId=null;
 }
 function toggleStatusMenu(id,btn){
-  closeMenus();
+  // Remove any existing menus first
+  document.querySelectorAll('.status-menu').forEach(m=>m.remove());
   if(openMenuId===id){openMenuId=null;return;}
   openMenuId=id;
   const row=data.find(r=>r.id===id);
@@ -573,8 +575,8 @@ function toggleStatusMenu(id,btn){
   }).join('');
   btn.parentElement.appendChild(menu);
 }
-async function changeStatus(id,status){
-  closeMenus();
+function changeStatus(id,status){
+  openMenuId=null;
   const row=data.find(r=>r.id===id);if(!row)return;
   const today=new Date().toISOString().slice(0,10);
   const now=new Date();
