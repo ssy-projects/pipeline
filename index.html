@@ -160,7 +160,7 @@ td{padding:6px 8px;vertical-align:top;word-wrap:break-word;overflow-wrap:break-w
   </select>
   <select id="qType" onchange="render()">
     <option value="">All Types</option>
-    <option>Bulk Carrier</option><option>Product Tanker</option><option>LNG</option>
+    <option>Bulk Carrier</option><option>Product</option><option>LNG</option>
     <option>Chemical</option><option>Crude</option><option>LPG</option><option>Container</option>
     <option>Offshore</option><option>Others</option><option>Any</option>
   </select>
@@ -208,7 +208,7 @@ td{padding:6px 8px;vertical-align:top;word-wrap:break-word;overflow-wrap:break-w
     <div class="form-section">Vessel Details</div>
     <div class="form-grid">
       <div class="form-2"><label class="form-label">Vessel / Description *</label><input type="text" class="form-ctrl" id="f_desc" placeholder="e.g. Cape Jacaranda (181k/2011 Imabari)"></div>
-      <div><label class="form-label">Type</label><select class="form-ctrl" id="f_type"><option>Bulk Carrier</option><option>Product Tanker</option><option>LNG</option><option>Chemical</option><option>Crude</option><option>LPG</option><option>Container</option><option>Offshore</option><option>Car Carrier</option><option>Others</option><option>Any</option></select></div>
+      <div><label class="form-label">Type</label><select class="form-ctrl" id="f_type"><option>Bulk Carrier</option><option>Product</option><option>LNG</option><option>Chemical</option><option>Crude</option><option>LPG</option><option>Container</option><option>Offshore</option><option>Car Carrier</option><option>Others</option><option>Any</option></select></div>
       <div><label class="form-label">Size</label><select class="form-ctrl" id="f_size">
   <option value="">—</option>
   <option>HDY</option><option>SMX</option><option>UMX</option>
@@ -295,7 +295,7 @@ const POS_C = {
 };
 const TYPE_C = {
   'Bulk Carrier':   {bg:'#fef9c3',text:'#854d0e',dot:'#f59e0b'},
-  'Product Tanker': {bg:'#dbeafe',text:'#1e40af',dot:'#3b82f6'},
+  'Product': {bg:'#dbeafe',text:'#1e40af',dot:'#3b82f6'},
   'LNG':            {bg:'#dcfce7',text:'#166534',dot:'#22c55e'},
   'Chemical':       {bg:'#f3e8ff',text:'#6b21a8',dot:'#a855f7'},
   'Crude':          {bg:'#fee2e2',text:'#991b1b',dot:'#ef4444'},
@@ -313,13 +313,13 @@ const STATUSES = ['Enquiry (TC)','P/E','Slot','Opening (TC)','Opening (Sale)','N
 
 const SEED = [
   {id:1,entryDate:'',updateDate:'2026-06-10',status:'Completed',transaction:'Finance',counterparty:'NTT TC Lease (NTL)',position:'Lenders',bidAsk:'Fixed',desc:'TESS66 (Cebu) NB 2H 2026 (SC457)',type:'Bulk Carrier',size:'UMX',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Direct Mortgage',hirePrice:'USD 26 mill / 4Y9M / USD 433k PQ / SOFR + 180 bps',remarks:'LTV ~70% Dely 3Q 2026',broker:'EQ'},
-  {id:2,entryDate:'',updateDate:'2026-06-10',status:'Completed',transaction:'POPT',counterparty:'Weco Tankers',position:'Charterers',bidAsk:'Fixed',desc:'Weco Malou (49k/2022 HVS)',type:'Product Tanker',size:'MR',delivery:'Prompt',duration:'N/A',structure:'Straight Purchase',hirePrice:'PO price USD 27,875,000 (less 0.5% to SSY)',remarks:'Delivery from 28th Nov 2025',broker:'EQ'},
+  {id:2,entryDate:'',updateDate:'2026-06-10',status:'Completed',transaction:'POPT',counterparty:'Weco Tankers',position:'Charterers',bidAsk:'Fixed',desc:'Weco Malou (49k/2022 HVS)',type:'Product',size:'MR',delivery:'Prompt',duration:'N/A',structure:'Straight Purchase',hirePrice:'PO price USD 27,875,000 (less 0.5% to SSY)',remarks:'Delivery from 28th Nov 2025',broker:'EQ'},
   {id:3,entryDate:'',updateDate:'2026-06-10',status:'Pending Dely',transaction:'SNP',counterparty:'Kumiai Senpaku',position:'Sellers',bidAsk:'Fixed',desc:'Frontier Neige (182k/2011 KHI)',type:'Bulk Carrier',size:'Cape',delivery:'Aug 2026',duration:'N/A',structure:'Straight Sale',hirePrice:'USD 25.5 mill less 2%',remarks:'Min 30 Apr 26 – Max 20 Dec 26 SS/DD Due',broker:'EQ'},
   {id:4,entryDate:'',updateDate:'2025-09-01',status:'Pending Dely',transaction:'SNP',counterparty:'Kumiai Senpaku',position:'Sellers',bidAsk:'Fixed',desc:'Cape Jacaranda (181k/2011 Imabari)',type:'Bulk Carrier',size:'Cape',delivery:'2026 2H',duration:'N/A',structure:'Straight Sale',hirePrice:'USD 25.5 mill less 2%',remarks:'Min 30 Jun 26 – Max 30 Oct 26 SS/DD Due',broker:'EQ'},
   {id:5,entryDate:'',updateDate:'2026-06-10',status:'Negos',transaction:'BBHP',counterparty:'Osaka Asahi Kaiun',position:'Lenders',bidAsk:'Fixed',desc:'1 x NB Capesize 182K',type:'Bulk Carrier',size:'Cape',delivery:'2029',duration:'Long Term (5-10Y)',structure:'BBHP',hirePrice:'USD 78 mill / 10Y BBC / USD 16,000',remarks:'Deal under negos (PNC) 1Jan-31Aug2029',broker:'EQ'},
-  {id:6,entryDate:'2025-09-01',updateDate:'2026-06-10',status:'File Closed',transaction:'SLB',counterparty:'Tribeca Maritime Partners',position:'Borrowers',bidAsk:'Ask',desc:'NB MR2 IMO2/3 Chemical Tanker',type:'Product Tanker',size:'MR',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Floating',hirePrice:'USD 36M / SOFR+200bps',remarks:'April 2026',broker:'EQ'},
+  {id:6,entryDate:'2025-09-01',updateDate:'2026-06-10',status:'File Closed',transaction:'SLB',counterparty:'Tribeca Maritime Partners',position:'Borrowers',bidAsk:'Ask',desc:'NB MR2 IMO2/3 Chemical Tanker',type:'Product',size:'MR',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Floating',hirePrice:'USD 36M / SOFR+200bps',remarks:'April 2026',broker:'EQ'},
   {id:7,entryDate:'2025-09-05',updateDate:'',status:'Live',transaction:'Finance',counterparty:'FFG',position:'Lenders',bidAsk:'Ask',desc:'Any good name charterer/Straight Mortgage loan',type:'Any',size:'',delivery:'Any',duration:'Long Term (5-10Y)',structure:'Direct Mortgage',hirePrice:'LTV70% SOFR + 160-190bps depending on the name',remarks:'Ask HI who gonna be candidate',broker:'HI'},
-  {id:8,entryDate:'',updateDate:'2026-06-10',status:'File Closed',transaction:'Finance',counterparty:'Tribeca Maritime Partners',position:'Borrowers',bidAsk:'Ask',desc:'NB MR2 IMO2/3 Chemical Tanker',type:'Product Tankers',size:'MR',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Floating',hirePrice:'USD 36M / SOFR+200bps',remarks:'Aug 2026',broker:'EQ'},
+  {id:8,entryDate:'',updateDate:'2026-06-10',status:'File Closed',transaction:'Finance',counterparty:'Tribeca Maritime Partners',position:'Borrowers',bidAsk:'Ask',desc:'NB MR2 IMO2/3 Chemical Tanker',type:'Products',size:'MR',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Floating',hirePrice:'USD 36M / SOFR+200bps',remarks:'Aug 2026',broker:'EQ'},
   {id:9,entryDate:'',updateDate:'2026-06-10',status:'File Closed',transaction:'NB',counterparty:'Nihon ShipYard (NSY)',position:'Builders',bidAsk:'Ask',desc:'Newbuild 40k Handysize',type:'Bulk Carrier',size:'HDY',delivery:'2028 2H',duration:'N/A',structure:'Newbuild Order',hirePrice:'USD 32.5 Million',remarks:'',broker:''},
   {id:10,entryDate:'',updateDate:'',status:'Live',transaction:'NB',counterparty:'Bangladesh Shipping Corp',position:'Owners',bidAsk:'Bid',desc:'2 x NB 174K LNG',type:'LNG',size:'174K m3',delivery:'2029 2H',duration:'N/A',structure:'Newbuilding',hirePrice:'2 X USD 250 million (Korean)',remarks:'',broker:'HN'},
   {id:11,entryDate:'',updateDate:'2026-06-10',status:'Live',transaction:'SLB',counterparty:'Sugahara Kisen',position:'Owners',bidAsk:'Bid',desc:'NB SLB project in 2026 2H -2027 1H',type:'Any',size:'',delivery:'2026',duration:'Long Term (5-10Y)',structure:'Floating',hirePrice:'USD 30-40mil SOFR + 220bps',remarks:'Can do LTV 80%-85%',broker:'HI'},
@@ -335,7 +335,7 @@ const SEED = [
   {id:21,entryDate:'',updateDate:'2026-06-10',status:'Live',transaction:'TC',counterparty:'Union Maritime',position:'Owners',bidAsk:'Ask',desc:'2 x NB J19 (Fukuoka) SUS Tanker',type:'Chemical',size:'J19',delivery:'Prompt',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'19000 net for 4/5yrs',remarks:'15Oct 2025',broker:'HI'},
   {id:22,entryDate:'',updateDate:'',status:'File Closed',transaction:'SLB',counterparty:'Erasmus',position:'Borrowers',bidAsk:'Ask',desc:'MV Erasmus Ninja (2,500teu /2007)',type:'Container',size:'Feeder',delivery:'Prompt',duration:'Long Term (5-10Y)',structure:'Fixed',hirePrice:'$22M | 5Y | $7k/d | POB $14.4M | POPT Y1 prorata mthly',remarks:'IRR: 5.41% / Dely 22-Sep',broker:'CK'},
   {id:23,entryDate:'',updateDate:'',status:'File Closed',transaction:'SNP',counterparty:'Costamare',position:'Buyers',bidAsk:'Bid',desc:'Wakayama Maru (2013 Koyo)',type:'Bulk Carrier',size:'Cape',delivery:'3-6M',duration:'N/A',structure:'Straight Purchase',hirePrice:'Just lost out at US$ 26.2 mill for Wisdom\'s vessel',remarks:'',broker:'NT'},
-  {id:24,entryDate:'',updateDate:'',status:'Completed',transaction:'SLB',counterparty:'Evah Line',position:'Owners',bidAsk:'Fixed',desc:'MV SC Equator 2nd hand MR Tanker 2009 built',type:'Product Tanker',size:'MR',delivery:'Prompt',duration:'Long Term (5-10Y)',structure:'Floating',hirePrice:'USD 19mil/SOFR + 250bps Upfront 0.5%',remarks:'LTV 95%/Soechi',broker:'HI'},
+  {id:24,entryDate:'',updateDate:'',status:'Completed',transaction:'SLB',counterparty:'Evah Line',position:'Owners',bidAsk:'Fixed',desc:'MV SC Equator 2nd hand MR Tanker 2009 built',type:'Product',size:'MR',delivery:'Prompt',duration:'Long Term (5-10Y)',structure:'Floating',hirePrice:'USD 19mil/SOFR + 250bps Upfront 0.5%',remarks:'LTV 95%/Soechi',broker:'HI'},
   {id:25,entryDate:'',updateDate:'',status:'Completed',transaction:'SNP',counterparty:'Wisdom Marine',position:'Sellers',bidAsk:'Fixed',desc:'GENIUS STAR XI (13K/2012 Kegoya)',type:'Bulk Carrier',size:'Tween/Mini Bulk',delivery:'3-6M',duration:'N/A',structure:'Straight Sale',hirePrice:'K-WORLD LINE CO., LTD (Yoon) USD 8.7 mio less $124k L/S',remarks:'Dely 1-Jun / 31-Oct 2025',broker:'KW'},
   {id:26,entryDate:'2025-09-01',updateDate:'2026-06-10',status:'File Closed',transaction:'SNP',counterparty:'K-Line Singapore',position:'Sellers',bidAsk:'Gone',desc:'MV SUNSHINE BLISS (76K 2010 Oshima)',type:'Bulk Carrier',size:'PMX',delivery:'Prompt',duration:'N/A',structure:'Straight Sale',hirePrice:"High USD 15's million",remarks:'',broker:'HN'},
   {id:27,entryDate:'2025-09-05',updateDate:'2026-06-10',status:'Completed',transaction:'SNP',counterparty:'Grace Harmony Singapore Pte Ltd',position:'Sellers',bidAsk:'Ask',desc:'Grace Harmony (60k, 2015, Onomichi)',type:'Bulk Carrier',size:'UMX',delivery:'',duration:'',structure:'',hirePrice:'',remarks:'',broker:''},
@@ -363,7 +363,7 @@ const SEED = [
   {id:49,entryDate:'2026-06-10',updateDate:'',status:'Live',transaction:'SNP',counterparty:'K Line',position:'Sellers',bidAsk:'Ask',desc:'YAMATOGAWA (302K | 2006 | KHI)',type:'Crude',size:'VLCC',delivery:'8 Jul / 24 Aug 2026',duration:'N/A',structure:'Straight Sale',hirePrice:'Offers due 16th June 2026',remarks:'',broker:'HN'},
   {id:50,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Live',transaction:'Finance',counterparty:'DryDel',position:'Borrowers',bidAsk:'Ask',desc:'Newbuild 182K Cape',type:'Bulk Carrier',size:'UMX',delivery:'2H 2029',duration:'Long Term (5-10Y)',structure:'JOLCO',hirePrice:'Seeking JOLCO finance 100% LTV with Pre-Delivery Finance.',remarks:'',broker:'EQ'},
   {id:51,entryDate:'2026-06-10',updateDate:'',status:'Live',transaction:'Finance',counterparty:'NTT TC Lease',position:'Lenders',bidAsk:'Ask',desc:'Any (except Crude, still reviewing)',type:'Any',size:'',delivery:'2026',duration:'Long Term (5-10Y)',structure:'JOLCO',hirePrice:'Can do JOLCo, SLB, Direct Finance',remarks:'',broker:'EQ'},
-  {id:52,entryDate:'2026-06-10',updateDate:'',status:'Live',transaction:'NB',counterparty:'Bangladesh Shipping Corp.',position:'Buyers',bidAsk:'Bid',desc:'2 x MR2 Product Tankers',type:'Product Tanker',size:'MR',delivery:'2029/2030',duration:'N/A',structure:'Newbuilding',hirePrice:'Will face Market',remarks:'',broker:'HN'},
+  {id:52,entryDate:'2026-06-10',updateDate:'',status:'Live',transaction:'NB',counterparty:'Bangladesh Shipping Corp.',position:'Buyers',bidAsk:'Bid',desc:'2 x MR2 Products',type:'Product',size:'MR',delivery:'2029/2030',duration:'N/A',structure:'Newbuilding',hirePrice:'Will face Market',remarks:'',broker:'HN'},
   {id:53,entryDate:'2026-06-10',updateDate:'2026-06-10',status:'Live',transaction:'NB',counterparty:'Bangladesh Shipping Corp',position:'Buyers',bidAsk:'Bid',desc:'4 x NB Ultramax',type:'Bulk Carrier',size:'UMX',delivery:'2029 / 2030',duration:'N/A',structure:'Newbuilding',hirePrice:'Sorting out finance. Will face market.',remarks:'',broker:'HN'},
 ];
 
@@ -760,7 +760,7 @@ Valid status: Enquiry|Slot|Opening|Live|Negos|Pending Dely|File Closed|Completed
 Valid transaction: TC|SLB|BBHP|SNP|Finance|NB|Opening|POPT|JV|TC/DC
 Valid position: Owners|Charterers|Sellers|Buyers|Lenders|Borrowers|Builders|Both/Negos|As brokers
 Valid bidAsk: Bid|Ask|Fixed|Gone|As brokers
-Valid type: Bulk Carrier|Product Tanker|LNG|Chemical|Crude|LPG|Container|Offshore|Others|Any
+Valid type: Bulk Carrier|Product|LNG|Chemical|Crude|LPG|Container|Offshore|Others|Any
 Valid size: HDY|UMX|KMX|Cape|PPMX|PMX|MR|Mini-Tanker|Bunker Tanker|Suezmax|VLCC|LR1|LR2|Feeder|Mega Container|J16|J19|MGC|LGC|SLPG|VLGC|VLAC|174K m3|Q-Flex 210K m3|Q-Max 266K m3|Global Max 271K m3|Tween/Mini Bulk|Others|(empty if unknown)
 Return JSON only.`,
       messages:[{role:'user',content:txt}]
